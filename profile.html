@@ -1,0 +1,428 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>User Profile</title>-->
+<!--    <link rel="stylesheet" href="style.css">-->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">-->
+<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
+<!--</head>-->
+<!--<body>-->
+<!--    <div class="container mt-5">-->
+<!--        <h1>User Profile</h1>-->
+<!--        <div class="row">-->
+<!--            <div class="col-md-6">-->
+<!--                <div class="form-group d-flex align-items-center">-->
+<!--                    <label for="profile_image">Profile Image:</label>-->
+<!--                    <div class="d-flex align-items-center">-->
+<!--                    <img id="profileImageDisplay" src="{{ user.profile_image or 'default_profile_image.jpg' }}" alt="Profile Image" class="rounded-circle" width="150" height="150">-->
+<!--                    <button class="btn btn-secondary ml-2" onclick="openImageUploadModal()">Change Profile Image</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div class="form-group d-flex align-items-center">-->
+<!--                    <label for="username">Username:</label>-->
+<!--                    <div class="d-flex align-items-center">-->
+<!--                    <p id="username" class="mb-0 ml-3 mr-2">{{ user.username }}</p>-->
+<!--                    <button class="btn btn-secondary ml-2" onclick="openEditModal('username', '{{ user.username }}')">Edit</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="form-group d-flex align-items-center">-->
+<!--                    <label for="email">Email:</label>-->
+<!--                    <div class="d-flex align-items-center">-->
+<!--                    <p id="email" class="mb-0 ml-3 mr-2">{{ user.email }}</p>-->
+<!--                    <button class="btn btn-secondary ml-2" onclick="openEditModal('email', '{{ user.email }}')">Edit</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="form-group d-flex align-items-center">-->
+<!--                    <label for="phone">Phone:</label>-->
+<!--                    <div class="d-flex align-items-center">-->
+<!--                    <p id="phone" class="mb-0 ml-3 mr-2">{{ user.phone if user.phone else 'null' }}</p>-->
+<!--                    <button class="btn btn-secondary ml-2" onclick="openEditModal('phone', '{{ user.phone }}')">Edit</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="form-group d-flex align-items-center">-->
+<!--                    <label for="address">Address:</label>-->
+<!--                    <div class="d-flex align-items-center">-->
+<!--                    <p id="address" class="mb-0 ml-3 mr-2">{{ user.address if user.address else 'null' }}</p>-->
+<!--                    <button class="btn btn-secondary ml-2" onclick="openEditModal('address', '{{ user.address }}')">Edit</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <a href="/logout" class="btn btn-danger">Logout</a>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Modal for Editing User Details &ndash;&gt;-->
+<!--    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">-->
+<!--        <div class="modal-dialog">-->
+<!--            <div class="modal-content">-->
+<!--                <div class="modal-header">-->
+<!--                    <h5 class="modal-title" id="editModalLabel">Edit User Details</h5>-->
+<!--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                        <span>&times;</span>-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--                <div class="modal-body">-->
+<!--                    <form id="editForm">-->
+<!--                        <input type="hidden" id="field" name="field">-->
+<!--                        <div class="form-group">-->
+<!--                            <label for="value">Value:</label>-->
+<!--                            <input type="text" class="form-control" id="value" name="value" required>-->
+<!--                        </div>-->
+<!--                    </form>-->
+<!--                </div>-->
+<!--                <div class="modal-footer">-->
+<!--                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+<!--                    <button type="button" class="btn btn-primary" onclick="submitEdit()">Save changes</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Modal for Uploading Profile Image &ndash;&gt;-->
+<!--    <div class="modal fade" id="imageUploadModal" tabindex="-1" aria-labelledby="imageUploadModalLabel" aria-hidden="true">-->
+<!--        <div class="modal-dialog">-->
+<!--            <div class="modal-content">-->
+<!--                <div class="modal-header">-->
+<!--                    <h5 class="modal-title" id="imageUploadModalLabel">Upload Profile Image</h5>-->
+<!--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                        <span>&times;</span>-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--                <div class="modal-body">-->
+<!--                    <form id="imageUploadForm" enctype="multipart/form-data">-->
+<!--                        <div class="form-group">-->
+<!--                            <label for="profileImage">Choose an image:</label>-->
+<!--                            <input type="file" class="form-control" id="profileImage" name="profile_image" accept="image/*" required>-->
+<!--                        </div>-->
+<!--                    </form>-->
+<!--                </div>-->
+<!--                <div class="modal-footer">-->
+<!--                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+<!--                    <button type="button" class="btn btn-primary" onclick="submitImageUpload()">Upload Image</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>-->
+<!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>-->
+<!--    <script>-->
+<!--        function openEditModal(field, value) {-->
+<!--            $('#field').val(field);-->
+<!--            $('#value').val(value);-->
+<!--            $('#editModal').modal('show');-->
+<!--        }-->
+
+<!--        function submitEdit() {-->
+<!--            const field = $('#field').val();-->
+<!--            const value = $('#value').val();-->
+
+<!--            $.ajax({-->
+<!--                url: '/update-profile',-->
+<!--                type: 'POST',-->
+<!--                contentType: 'application/json',-->
+<!--                data: JSON.stringify({ field: field, value: value }),-->
+<!--                success: function(response) {-->
+<!--                    // Update the displayed value-->
+<!--                    $('#' + field).text(value);-->
+<!--                    $('#editModal').modal('hide');-->
+<!--                },-->
+<!--                error: function(error) {-->
+<!--                    console.error("Error updating profile:", error);-->
+<!--                }-->
+<!--            });-->
+<!--        }-->
+
+<!--        function openImageUploadModal() {-->
+<!--            $('#imageUploadModal').modal('show');-->
+<!--        }-->
+
+<!--        function submitImageUpload() {-->
+<!--            const formData = new FormData($('#imageUploadForm')[0]);-->
+
+<!--            $.ajax({-->
+<!--                url: '/upload-profile-image',-->
+<!--                type: 'POST',-->
+<!--                data: formData,-->
+<!--                processData: false,-->
+<!--                contentType: false,-->
+<!--                success: function(response) {-->
+<!--                    $('#profileImageDisplay').attr('src', response.new_image_url);-->
+<!--                    $('#imageUploadModal').modal('hide');-->
+<!--                },-->
+<!--                error: function(error) {-->
+<!--                    console.error("Error uploading image:", error);-->
+<!--                }-->
+<!--            });-->
+<!--        }-->
+
+<!--    </script>-->
+<!--</body>-->
+<!--</html>-->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .form-group label {
+            font-size: 18px;
+            color: #34495e;
+        }
+
+        .form-group p {
+            font-size: 18px;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .btn {
+            font-size: 16px;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+        .btn-secondary {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-danger {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+        }
+
+        .rounded-circle {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border: 3px solid #3498db;
+        }
+
+        .modal-header {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .modal-footer .btn-primary {
+            background-color: #3498db;
+            border: none;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group p {
+            margin: 0;
+        }
+
+        .form-group.d-flex {
+            align-items: center;
+        }
+
+        .form-group .btn {
+            margin-left: auto;
+        }
+
+        .profile-buttons {
+            margin-top: 30px;
+        }
+
+        /* Hover effect for profile image */
+        #profileImageDisplay:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+  <!-- Include header -->
+  {% include 'header.html' %}
+
+    <div class="container mt-5">
+        <h1>User Profile</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group d-flex align-items-center">
+                    <label for="profile_image">Profile Image:</label>
+                    <div class="d-flex align-items-center ml-3">
+                        <img id="profileImageDisplay" src="{{ user.profile_image or 'default_profile_image.jpg' }}" alt="Profile Image" class="rounded-circle" width="150" height="150">
+                        <button class="btn btn-secondary ml-3" onclick="openImageUploadModal()">Change Image</button>
+                    </div>
+                </div>
+
+                <div class="form-group d-flex align-items-center">
+                    <label for="username">Username:</label>
+                    <p id="username" class="mb-0 ml-3">{{ user.username }}</p>
+                    <button class="btn btn-secondary ml-auto" onclick="openEditModal('username', '{{ user.username }}')">Edit</button>
+                </div>
+
+                <div class="form-group d-flex align-items-center">
+                    <label for="email">Email:</label>
+                    <p id="email" class="mb-0 ml-3">{{ user.email }}</p>
+                    <button class="btn btn-secondary ml-auto" onclick="openEditModal('email', '{{ user.email }}')">Edit</button>
+                </div>
+
+                <div class="form-group d-flex align-items-center">
+                    <label for="phone">Phone:</label>
+                    <p id="phone" class="mb-0 ml-3">{{ user.phone if user.phone else 'null' }}</p>
+                    <button class="btn btn-secondary ml-auto" onclick="openEditModal('phone', '{{ user.phone }}')">Edit</button>
+                </div>
+
+                <div class="form-group d-flex align-items-center">
+                    <label for="address">Address:</label>
+                    <p id="address" class="mb-0 ml-3">{{ user.address if user.address else 'null' }}</p>
+                    <button class="btn btn-secondary ml-auto" onclick="openEditModal('address', '{{ user.address }}')">Edit</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-buttons">
+            <a href="/logout" class="btn btn-danger">Logout</a>
+        </div>
+    </div>
+
+    <!-- Modal for Editing User Details -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Edit User Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editForm">
+                        <input type="hidden" id="field" name="field">
+                        <div class="form-group">
+                            <label for="value">Value:</label>
+                            <input type="text" class="form-control" id="value" name="value" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="submitEdit()">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Uploading Profile Image -->
+    <div class="modal fade" id="imageUploadModal" tabindex="-1" aria-labelledby="imageUploadModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageUploadModalLabel">Upload Profile Image</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="imageUploadForm" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="profileImage">Choose an image:</label>
+                            <input type="file" class="form-control" id="profileImage" name="profile_image" accept="image/*" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="submitImageUpload()">Upload Image</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function openEditModal(field, value) {
+            $('#field').val(field);
+            $('#value').val(value);
+            $('#editModal').modal('show');
+        }
+
+        function submitEdit() {
+            const field = $('#field').val();
+            const value = $('#value').val();
+
+            $.ajax({
+                url: '/update-profile',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ field: field, value: value }),
+                success: function(response) {
+                    $('#' + field).text(value);
+                    $('#editModal').modal('hide');
+                },
+                error: function(error) {
+                    console.error("Error updating profile:", error);
+                }
+            });
+        }
+
+        function openImageUploadModal() {
+            $('#imageUploadModal').modal('show');
+        }
+
+        function submitImageUpload() {
+            const formData = new FormData($('#imageUploadForm')[0]);
+
+            $.ajax({
+                url: '/upload-profile-image',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    $('#profileImageDisplay').attr('src', response.new_image_url);
+                    $('#imageUploadModal').modal('hide');
+                },
+                error: function(error) {
+                    console.error("Error uploading image:", error);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+

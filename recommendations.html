@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Store Recommendations</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <!-- Include header -->
+  {% include 'header.html' %}
+
+<!--  <script>-->
+<!--    document.getElementById('recommendation-form').addEventListener('submit', function(e) {-->
+<!--      e.preventDefault();-->
+
+<!--      // Get form values-->
+<!--      const productName = document.getElementById('productName').value;-->
+<!--      const location = document.getElementById('location').value;-->
+<!--      const category = document.getElementById('category').value;-->
+<!--      const minPrice = document.getElementById('minPrice').value;-->
+<!--      const maxPrice = document.getElementById('maxPrice').value;-->
+
+<!--      // Make an API call to the backend (Flask server)-->
+<!--      fetch('/get-recommendations', {-->
+<!--        method: 'POST',-->
+<!--        headers: {-->
+<!--          'Content-Type': 'application/json',-->
+<!--        },-->
+<!--        body: JSON.stringify({-->
+<!--          productName: productName,-->
+<!--          location: location,-->
+<!--          category: category,-->
+<!--          minPrice: minPrice,-->
+<!--          maxPrice: maxPrice,-->
+<!--        }),-->
+<!--      })-->
+<!--      .then(response => response.json())-->
+<!--      .then(data => {-->
+<!--        // Display the recommendations-->
+<!--        const recommendationList = document.getElementById('recommendation-list');-->
+<!--        recommendationList.innerHTML = ''; // Clear previous results-->
+
+<!--        data.forEach(store => {-->
+<!--          const storeCard = document.createElement('div');-->
+<!--          storeCard.classList.add('store-card');-->
+<!--          storeCard.innerHTML = `-->
+<!--            <h3>${store.storeName}</h3>-->
+<!--            <p>Location: ${store.location}</p>-->
+<!--            <p>Price: $${store.price}</p>-->
+<!--            <p>Category: ${store.category}</p>-->
+<!--          `;-->
+<!--          recommendationList.appendChild(storeCard);-->
+<!--        });-->
+<!--      })-->
+<!--      .catch(error => console.error('Error:', error));-->
+<!--    });-->
+
+<!--  </script>-->
+
+  <!-- Recommendations Section -->
+  <div class="recommendation-container">
+    <!-- Sidebar Filter Form -->
+    <div class="recommendation-sidebar">
+      <h2>Find Your Best Product</h2>
+      <form id="recommendation-form">
+        <label for="productName">Product Name:</label>
+        <input type="text" id="productName" name="productName" >
+
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" required>
+
+        <label for="category">Category:</label>
+        <select id="category" name="category" required>
+          <option value="laptop">Laptop</option>
+          <option value="pc">PC</option>
+          <option value="headphone">Headphone</option>
+          <option value="keyboard">Keyboard</option>
+          <option value="camera">Camera</option>
+          <option value="printer">Printer</option>
+        </select>
+
+        <label for="minPrice">Minimum Price:</label>
+        <input type="number" id="minPrice" name="minPrice" required>
+
+        <label for="maxPrice">Maximum Price:</label>
+        <input type="number" id="maxPrice" name="maxPrice" required>
+
+        <button type="submit" class="btn">Get Recommendations</button>
+      </form>
+    </div>
+
+    <!-- Recommendations Result Section -->
+    <div class="recommendation-results" id="recommendation-results">
+      <h2>Store Recommendations</h2>
+      <div id="recommendation-list"></div> <!-- The results will be dynamically populated here -->
+    </div>
+  </div>
+
+<!--  <script src="script.js"></script>-->
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('recommendation-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Get form values
+    const productName = document.getElementById('productName').value;
+    const location = document.getElementById('location').value;
+    const category = document.getElementById('category').value;
+    const minPrice = document.getElementById('minPrice').value;
+    const maxPrice = document.getElementById('maxPrice').value;
+
+    // Make an API call to the backend (Flask server)
+    fetch('/get-recommendations', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        productName: productName,
+        location: location,
+        category: category,
+        minPrice: minPrice,
+        maxPrice: maxPrice,
+      }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      // Display the recommendations
+      const recommendationList = document.getElementById('recommendation-list');
+      recommendationList.innerHTML = ''; // Clear previous results
+
+      if (data.length === 0) {
+        recommendationList.innerHTML = '<p>No recommendations found for your filters.</p>';
+      }
+
+      data.forEach(store => {
+        const storeCard = document.createElement('div');
+        storeCard.classList.add('store-card');
+        storeCard.innerHTML = `
+          <h3>${store.storeName}</h3>
+          <p>Location: ${store.location}</p>
+          <p>Price: Rs.${store.price}</p>
+          <p>Category: ${store.category}</p>
+        `;
+        recommendationList.appendChild(storeCard);
+      });
+    })
+    .catch(error => console.error('Error:', error));
+  });
+});
+</script>
+
+</body>
+</html>

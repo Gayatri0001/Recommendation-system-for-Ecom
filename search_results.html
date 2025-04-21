@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Search Results</title>
+  <style>
+    /* Base Reset & Typography */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      line-height: 1.6;
+    }
+    /* Container: 90% width, centered */
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      margin: 20px auto;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #222;
+    }
+    /* Products Grid */
+    .products-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .product-card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      width: calc(33.33% - 20px);
+      transition: transform 0.3s;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .product-card:hover {
+      transform: scale(1.03);
+    }
+    .product-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .card-body {
+      padding: 15px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .card-body h5 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: #222;
+    }
+    .card-body p {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 10px;
+    }
+    .card-body a {
+      padding: 10px;
+      background-color: #007bff;
+      color: #fff;
+      text-align: center;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+    .card-body a:hover {
+      background-color: #0056b3;
+    }
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .product-card {
+        width: calc(50% - 20px);
+      }
+    }
+    @media (max-width: 480px) {
+      .product-card {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Include header -->
+  {% include 'header.html' %}
+
+  <div class="container">
+    <h1>Search Results for "{{ query }}"</h1>
+    {% if products %}
+      <div class="products-grid">
+        {% for product in products %}
+          <div class="product-card">
+            <img src="{{ product.image_url }}" alt="{{ product.product_name }}">
+            <div class="card-body">
+              <h5>{{ product.product_name }}</h5>
+              <p>Price: ₹{{ product.price }}</p>
+              <a href="/product/{{ product._id }}">View Details</a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>No products found for your search.</p>
+    {% endif %}
+  </div>
+</body>
+</html>
